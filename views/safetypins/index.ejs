@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Safety Pins</title>
+</head>
+<body>
+    <h1>All Safety Pins</h1>
+    <div>
+        <a href="/safetypins/new">Add new Safety Pin</a>
+    </div>
+    <ul>
+        <% for(let safetypin of safetypins) { %> 
+            <li><a href="/safetypins/<%= safetypin._id %>"><%= safetypin.location %></a> </li>
+        <% } %> 
+    </ul>
+</body>
+</html>

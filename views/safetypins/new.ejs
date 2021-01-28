@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>New Safety Pin</title>
+</head>
+<body>
+    <form action="/safetypins" method="POST">
+        <div>
+            <label for="location">Location</label>
+            <input type="text" name="safetypin[location]" id="location">
+        </div>
+        <div>
+            <label for="address">Address</label>
+            <input type="text" name="safetypin[address]" id="address">
+        </div>
+        <button>Add Safety Pin</button>
+    </form>
+    <a href="/safetypins">Back</a>
+</body>
+</html>
