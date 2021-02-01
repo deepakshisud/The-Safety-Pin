@@ -1,13 +1,36 @@
 <% layout('/layouts/boilerplate') %>
-    <form action="/safetypins" method="POST">
-        <div>
-            <label for="location">Location</label>
-            <input type="text" name="safetypin[location]" id="location">
-        </div>
-        <div>
-            <label for="address">Address</label>
-            <input type="text" name="safetypin[address]" id="address">
-        </div>
-        <button>Add Safety Pin</button>
-    </form>
-    <a href="/safetypins">Back</a>
+<div class="row">
+    <h1 class="text-center">New SafetyPin</h1>
+    <div class="col-6 offset-3">
+        <form action="/safetypins" method="POST">
+            <div class="mb-3">
+                <label class="form-lable" for="location">Location</label>
+                <input class = "form-control" type="text" name="safetypin[location]" id="location">
+            </div>
+            <div class="mb-3">
+                <label class="form-lable" for="address">Address</label>
+                <input class = "form-control" type="text" name="safetypin[address]" id="address">
+            </div>
+            <div class="mb-3">
+                <label class="form-lable" for="image">Add Image</label>
+                <input class = "form-control" type="text" name="safetypin[image]" id="image">
+            </div>
+            <div class="mb-3">
+                <label class="form-lable" for="safety_index">Safety Index</label>
+                <div class="input-group">
+                    <span class="input-group-text" id="index-lable">*</span>
+                    <input type="text" class="form-control" id = "safety_index" placeholder="0.00" 
+                    aria-label="Username" aria-describedby="index-lable" name="safetypin[safety_index]">
+                </div>
+            </div>
+            <div class="mb-3">
+                <label class="form-lable" for="description">Description</label>
+                <textarea class = "form-control" type="text" name="safetypin[description]" id="description"></textarea>
+            </div>
+            <div class="mb-3">
+                <button class="btn btn-success">Add Safety Pin</button>
+            </div>
+        </form>
+        <a href="/safetypins">Back</a>
+    </div>
+</div>
