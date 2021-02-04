@@ -4,6 +4,7 @@ const mongoose = require('mongoose');
 const catchAsync = require('./utils/catchAsync');
 const ExpressError = require('./utils/ExpressError')
 const ejsMate = require('ejs-mate');
+const Joi = require('joi');
 const Safetypin = require('./models/safetypin');
 const methodOverride = require('method-override');
 
@@ -26,6 +27,28 @@ app.engine('ejs',ejsMate);
 app.use(express.urlencoded({extended: true}));
 app.use(methodOverride('_method'));
 
+
+const validateSafetypin = (req,res,next) => {
+    const safetypinSchema = Joi.object( {
+        safetypin: Joi.object({
+            location: Joi.string().required(),
+            safety_index: Joi.number().required().min(0),
+            image:Joi.string().required(),
+            address:Joi.string().required(),
+            description:Joi.string().required(),
+        }).required()
+    })
+
+    const {error} = safetypinSchema.validate(req.body);
+
+    if(error) {
+        const msg = error.details.map(el => el.message).join(',');
+        throw new ExpressError(msg , 400);
+    } else {
+        next();
+    }
+}
+
 app.get('/', (req, res) => {
     res.render('home');
 })
@@ -39,11 +62,11 @@ app.get('/safetypins/new', (req,res) => {
     res.render('safetypins/new');
 })
 
-app.post('/safetypins', catchAsync (async(req, res) => {
-    if(!req.body.safetypin) throw new ExpressError('Invalid data',400)
-        const safetypin = new Safetypin(req.body.safetypin);
-        await safetypin.save();
-        res.redirect(`/safetypins/${safetypin._id}`);
+app.post('/safetypins', validateSafetypin, catchAsync (async(req, res) => {
+    // if(!req.body.safetypin) throw new ExpressError('Invalid data',400)
+    const safetypin = new Safetypin(req.body.safetypin);
+    await safetypin.save();
+    res.redirect(`/safetypins/${safetypin._id}`);
 
 }))
 
@@ -57,7 +80,7 @@ app.get('/safetypins/:id/edit', catchAsync(async(req,res) => {
     res.render('safetypins/edit', {safetypin});
 }))
 
-app.put('/safetypins/:id', catchAsync(async(req,res) => {
+app.put('/safetypins/:id', validateSafetypin, catchAsync(async(req,res) => {
     const {id} = req.params;
     const safetypin = await Safetypin.findByIdAndUpdate(id, {...req.body.safetypin});
     res.redirect(`/safetypins/${safetypin._id}`);
