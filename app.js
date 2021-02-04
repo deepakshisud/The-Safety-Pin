@@ -4,7 +4,7 @@ const mongoose = require('mongoose');
 const catchAsync = require('./utils/catchAsync');
 const ExpressError = require('./utils/ExpressError')
 const ejsMate = require('ejs-mate');
-const Joi = require('joi');
+const {safetypinSchema} = require('./schemas.js');
 const Safetypin = require('./models/safetypin');
 const methodOverride = require('method-override');
 
@@ -29,18 +29,7 @@ app.use(methodOverride('_method'));
 
 
 const validateSafetypin = (req,res,next) => {
-    const safetypinSchema = Joi.object( {
-        safetypin: Joi.object({
-            location: Joi.string().required(),
-            safety_index: Joi.number().required().min(0),
-            image:Joi.string().required(),
-            address:Joi.string().required(),
-            description:Joi.string().required(),
-        }).required()
-    })
-
     const {error} = safetypinSchema.validate(req.body);
-
     if(error) {
         const msg = error.details.map(el => el.message).join(',');
         throw new ExpressError(msg , 400);
