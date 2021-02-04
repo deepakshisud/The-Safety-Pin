@@ -2,30 +2,42 @@
 <div class="row">
     <h1 class="text-center">New SafetyPin</h1>
     <div class="col-6 offset-3">
-        <form action="/safetypins" method="POST">
+        <form action="/safetypins" method="POST" novalidate class="validated-form">
             <div class="mb-3">
                 <label class="form-lable" for="location">Location</label>
-                <input class = "form-control" type="text" name="safetypin[location]" id="location">
+                <input class = "form-control" type="text" name="safetypin[location]" id="location" required>
+                <div class="valid-feedback">
+                    Looks good!
+                </div>
             </div>
             <div class="mb-3">
                 <label class="form-lable" for="address">Address</label>
-                <input class = "form-control" type="text" name="safetypin[address]" id="address">
+                <input class = "form-control" type="text" name="safetypin[address]" id="address" required>
+                <div class="valid-feedback">
+                    Looks good!
+                </div>
             </div>
             <div class="mb-3">
                 <label class="form-lable" for="image">Add Image</label>
-                <input class = "form-control" type="text" name="safetypin[image]" id="image">
+                <input class = "form-control" type="text" name="safetypin[image]" id="image" required>
+                <div class="valid-feedback">
+                    Looks good!
+                </div>
             </div>
             <div class="mb-3">
                 <label class="form-lable" for="safety_index">Safety Index</label>
                 <div class="input-group">
                     <span class="input-group-text" id="index-lable">*</span>
                     <input type="text" class="form-control" id = "safety_index" placeholder="0.00" 
-                    aria-label="Username" aria-describedby="index-lable" name="safetypin[safety_index]">
+                    aria-label="Username" aria-describedby="index-lable" name="safetypin[safety_index]" required>
                 </div>
             </div>
             <div class="mb-3">
                 <label class="form-lable" for="description">Description</label>
-                <textarea class = "form-control" type="text" name="safetypin[description]" id="description"></textarea>
+                <textarea class = "form-control" type="text" name="safetypin[description]" id="description" required></textarea>
+                <div class="valid-feedback">
+                    Looks good!
+                </div>
             </div>
             <div class="mb-3">
                 <button class="btn btn-success">Add Safety Pin</button>
@@ -34,3 +46,5 @@
         <a href="/safetypins">Back</a>
     </div>
 </div>
+
+
