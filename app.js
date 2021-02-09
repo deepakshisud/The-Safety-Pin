@@ -4,7 +4,7 @@ const mongoose = require('mongoose');
 const catchAsync = require('./utils/catchAsync');
 const ExpressError = require('./utils/ExpressError')
 const ejsMate = require('ejs-mate');
-const {safetypinSchema} = require('./schemas.js');
+const {safetypinSchema, reviewSchema} = require('./schemas.js');
 const Safetypin = require('./models/safetypin');
 const methodOverride = require('method-override');
 const Review = require('./models/review');
@@ -39,6 +39,16 @@ const validateSafetypin = (req,res,next) => {
     }
 }
 
+const validateReview = (req,res, next) => {
+    const {error} = reviewSchema.validate(req.body);
+    if(error) {
+        const msg = error.details.map(el => el.message).join(',');
+        throw new ExpressError(msg , 400);
+    } else {
+        next();
+    }
+}
+
 app.get('/', (req, res) => {
     res.render('home');
 })
@@ -61,7 +71,7 @@ app.post('/safetypins', validateSafetypin, catchAsync (async(req, res) => {
 }))
 
 app.get('/safetypins/:id', catchAsync(async(req, res) => {
-    const safetypin = await Safetypin.findById(req.params.id);
+    const safetypin = await Safetypin.findById(req.params.id).populate('reviews');
     res.render('safetypins/show', {safetypin});
 }))
 
@@ -82,7 +92,7 @@ app.delete('/safetypins/:id', catchAsync(async(req, res) => {
     res.redirect('/safetypins');
 }))
 
-app.post('/safetypins/:id/reviews', catchAsync(async(req, res) => {
+app.post('/safetypins/:id/reviews', validateReview ,catchAsync(async(req, res) => {
     const safetypin = await Safetypin.findById(req.params.id);
     const review = new Review(req.body.review);
     safetypin.reviews.push(review);
