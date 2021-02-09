@@ -101,6 +101,13 @@ app.post('/safetypins/:id/reviews', validateReview ,catchAsync(async(req, res) =
     res.redirect(`/safetypins/${safetypin._id}`);
 }))
 
+app.delete('/safetypins/:id/reviews/:reviewId', catchAsync(async(req, res)=> {
+    const {id, reviewId} = req.params;
+    await Safetypin.findByIdAndUpdate(id, {$pull: {review: reviewId}})
+    await Review.findByIdAndDelete(reviewId);
+    res.redirect(`/safetypins/${id}`)
+}))
+
 app.all('*',(req,res,next) => {
     next(new ExpressError('Page Not found',404));
 })
