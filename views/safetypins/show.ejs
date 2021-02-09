@@ -18,6 +18,20 @@
                 </form>
             </div>
           </div>
+          <h2>Been here? Leave a review</h2>
+          <form class="mb-3" action="/safetypins/<%=safetypin._id%>/reviews" method="POST">
+            <div class="mb-3">
+              <label for="rating" class="form-label">Rating</label>
+              <input type="range" class="form-range" id="rating" min="0" max="5" name="review[rating]">
+            </div>
+            <div class="mb-3">
+              <label class="form-label" for="body">Reviews</label>
+              <textarea class="form-control" name="review[body]" id="body" cols="30" rows="3"></textarea>
+            </div>
+            <button class="btn btn-success">Submit</button>
+          </form>
+
+
         <footer>
             <a href="/safetypins">All safety pins</a>
             

@@ -7,6 +7,7 @@ const ejsMate = require('ejs-mate');
 const {safetypinSchema} = require('./schemas.js');
 const Safetypin = require('./models/safetypin');
 const methodOverride = require('method-override');
+const Review = require('./models/review');
 
 mongoose.connect('mongodb://localhost:27017/safety-pin', {
     useNewUrlParser: true,
@@ -79,6 +80,15 @@ app.delete('/safetypins/:id', catchAsync(async(req, res) => {
     const {id} = req.params;
     await Safetypin.findByIdAndDelete(id);
     res.redirect('/safetypins');
+}))
+
+app.post('/safetypins/:id/reviews', catchAsync(async(req, res) => {
+    const safetypin = await Safetypin.findById(req.params.id);
+    const review = new Review(req.body.review);
+    safetypin.reviews.push(review);
+    await review.save();
+    await safetypin.save();
+    res.redirect(`/safetypins/${safetypin._id}`);
 }))
 
 app.all('*',(req,res,next) => {

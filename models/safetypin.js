@@ -6,7 +6,13 @@ const SafetypinSchema = new Schema( {
     image :String,
     safety_index: Number,
     description: String,
-    address: String
+    address: String,
+    reviews: [
+        {
+            type: Schema.Types.ObjectId,
+            ref: 'Review'
+        }
+    ]
 })
 
 module.exports = mongoose.model('Safetypin', SafetypinSchema );
