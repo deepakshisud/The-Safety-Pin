@@ -8,6 +8,8 @@ const {safetypinSchema, reviewSchema} = require('./schemas.js');
 const Safetypin = require('./models/safetypin');
 const methodOverride = require('method-override');
 const Review = require('./models/review');
+const safetypins = require('./routes/safetypins');
+
 
 mongoose.connect('mongodb://localhost:27017/safety-pin', {
     useNewUrlParser: true,
@@ -49,48 +51,14 @@ const validateReview = (req,res, next) => {
     }
 }
 
+app.use('/safetypins', safetypins)
+
+
 app.get('/', (req, res) => {
     res.render('home');
 })
 
-app.get('/safetypins', catchAsync(async(req, res) => {
-    const safetypins = await Safetypin.find({});
-    res.render('safetypins/index', {safetypins});
-}))
 
-app.get('/safetypins/new', (req,res) => {
-    res.render('safetypins/new');
-})
-
-app.post('/safetypins', validateSafetypin, catchAsync (async(req, res) => {
-    // if(!req.body.safetypin) throw new ExpressError('Invalid data',400)
-    const safetypin = new Safetypin(req.body.safetypin);
-    await safetypin.save();
-    res.redirect(`/safetypins/${safetypin._id}`);
-
-}))
-
-app.get('/safetypins/:id', catchAsync(async(req, res) => {
-    const safetypin = await Safetypin.findById(req.params.id).populate('reviews');
-    res.render('safetypins/show', {safetypin});
-}))
-
-app.get('/safetypins/:id/edit', catchAsync(async(req,res) => {
-    const safetypin = await Safetypin.findById(req.params.id);
-    res.render('safetypins/edit', {safetypin});
-}))
-
-app.put('/safetypins/:id', validateSafetypin, catchAsync(async(req,res) => {
-    const {id} = req.params;
-    const safetypin = await Safetypin.findByIdAndUpdate(id, {...req.body.safetypin});
-    res.redirect(`/safetypins/${safetypin._id}`);
-}))
-
-app.delete('/safetypins/:id', catchAsync(async(req, res) => {
-    const {id} = req.params;
-    await Safetypin.findByIdAndDelete(id);
-    res.redirect('/safetypins');
-}))
 
 app.post('/safetypins/:id/reviews', validateReview ,catchAsync(async(req, res) => {
     const safetypin = await Safetypin.findById(req.params.id);
