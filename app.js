@@ -2,9 +2,12 @@ const express = require('express');
 const path = require('path');
 const mongoose = require('mongoose');
 const ExpressError = require('./utils/ExpressError')
+const session = require('express-session');
 const ejsMate = require('ejs-mate');
-const {safetypinSchema, reviewSchema} = require('./schemas.js');
 const methodOverride = require('method-override');
+
+
+
 const safetypins = require('./routes/safetypins');
 const reviews = require('./routes/reviews');
 
@@ -12,7 +15,8 @@ const reviews = require('./routes/reviews');
 mongoose.connect('mongodb://localhost:27017/safety-pin', {
     useNewUrlParser: true,
     useCreateIndex: true,
-    useUnifiedTopology: true
+    useUnifiedTopology: true,
+    useFindAndModify: false
 });
 
 const db = mongoose.connection;
@@ -27,7 +31,19 @@ app.set('views',path.join(__dirname, '/views'));
 app.engine('ejs',ejsMate);
 app.use(express.urlencoded({extended: true}));
 app.use(methodOverride('_method'));
+app.use(express.static(path.join(__dirname,'public')));
 
+const sessionConfig = {
+    secret: 'asecret',
+    resave: false,
+    saveUninitialized: true,
+    cookie: {
+        httpOnly: true,
+        expires: Date.now() + 1000*60*60*24*7,
+        maxAge: 1000*60*60*24*7
+    }
+}
+app.use(session(sessionConfig));
 
 app.use('/safetypins', safetypins);
 app.use('/safetypins/:id/reviews', reviews);
