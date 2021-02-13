@@ -28,13 +28,14 @@ router.get('/new', (req,res) => {
 router.post('/', validateSafetypin, catchAsync (async(req, res) => {
     const safetypin = new Safetypin(req.body.safetypin);
     await safetypin.save();
+    req.flash('success','Successfully made a new safetypin')
     res.redirect(`/safetypins/${safetypin._id}`);
 
 }))
 
 router.get('/:id', catchAsync(async(req, res) => {
     const safetypin = await Safetypin.findById(req.params.id).populate('reviews');
-    res.render('safetypins/show', {safetypin});
+    res.render('safetypins/show', {safetypin,});
 }))
 
 router.get('/:id/edit', catchAsync(async(req,res) => {
