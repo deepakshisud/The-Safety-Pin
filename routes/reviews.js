@@ -22,6 +22,7 @@ router.post('/', validateReview ,catchAsync(async(req, res) => {
     safetypin.reviews.push(review);
     await review.save();
     await safetypin.save();
+    req.flash('success', 'Review added!')
     res.redirect(`/safetypins/${safetypin._id}`);
 }))
 
@@ -29,6 +30,7 @@ router.delete('/:reviewId', catchAsync(async(req, res)=> {
     const {id, reviewId} = req.params;
     await Safetypin.findByIdAndUpdate(id, {$pull: {review: reviewId}})
     await Review.findByIdAndDelete(reviewId);
+    req.flash('success', 'Successfully deleted review!')
     res.redirect(`/safetypins/${id}`)
 }))
 
