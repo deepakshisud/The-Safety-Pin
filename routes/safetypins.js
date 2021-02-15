@@ -4,6 +4,7 @@ const catchAsync = require('../utils/catchAsync');
 const ExpressError = require('../utils/ExpressError')
 const Safetypin = require('../models/safetypin');
 const {safetypinSchema} = require('../schemas.js');
+const isLoggedIn = require('../middleware');
 
 
 const validateSafetypin = (req,res,next) => {
@@ -21,7 +22,7 @@ router.get('/', catchAsync(async(req, res) => {
     res.render('safetypins/index', {safetypins});
 }))
 
-router.get('/new', (req,res) => {
+router.get('/new', isLoggedIn, (req,res) => {
     res.render('safetypins/new');
 })
 
