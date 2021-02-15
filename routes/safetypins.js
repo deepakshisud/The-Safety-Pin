@@ -26,7 +26,7 @@ router.get('/new', isLoggedIn, (req,res) => {
     res.render('safetypins/new');
 })
 
-router.post('/', validateSafetypin, catchAsync (async(req, res) => {
+router.post('/', isLoggedIn, validateSafetypin, catchAsync (async(req, res) => {
     const safetypin = new Safetypin(req.body.safetypin);
     await safetypin.save();
     req.flash('success','Successfully made a new safetypin')
@@ -43,7 +43,7 @@ router.get('/:id', catchAsync(async(req, res) => {
     res.render('safetypins/show', {safetypin,});
 }))
 
-router.get('/:id/edit', catchAsync(async(req,res) => {
+router.get('/:id/edit', isLoggedIn, catchAsync(async(req,res) => {
     const safetypin = await Safetypin.findById(req.params.id);
     if(!safetypin) {
         req.flash('error','Cannot find the safetypin')
@@ -52,14 +52,14 @@ router.get('/:id/edit', catchAsync(async(req,res) => {
     res.render('safetypins/edit', {safetypin});
 }))
 
-router.put('/:id', validateSafetypin, catchAsync(async(req,res) => {
+router.put('/:id', isLoggedIn, validateSafetypin, catchAsync(async(req,res) => {
     const {id} = req.params;
     const safetypin = await Safetypin.findByIdAndUpdate(id, {...req.body.safetypin});
     req.flash('success','Successfully updated!');
     res.redirect(`/safetypins/${safetypin._id}`);
 }))
 
-router.delete('/:id', catchAsync(async(req, res) => {
+router.delete('/:id', isLoggedIn, catchAsync(async(req, res) => {
     const {id} = req.params;
     await Safetypin.findByIdAndDelete(id);
     req.flash('success','Successfully deleted!')
