@@ -11,8 +11,9 @@ const LocalStrategy = require('passport-local');
 const User = require('./models/user');
 
 
-const safetypins = require('./routes/safetypins');
-const reviews = require('./routes/reviews');
+const safetypinRoutes = require('./routes/safetypins');
+const reviewRoutes = require('./routes/reviews');
+const userRoutes = require('./routes/users');
 
 
 mongoose.connect('mongodb://localhost:27017/safety-pin', {
@@ -52,6 +53,8 @@ app.use(flash());
 app.use(passport.initialize());
 app.use(passport.session());
 passport.use(new LocalStrategy(User.authenticate()));
+passport.serializeUser(User.serializeUser());
+passport.deserializeUser(User.deserializeUser());
 
 
 app.use((req, res, next) => {
@@ -60,8 +63,15 @@ app.use((req, res, next) => {
     next();
 })
 
-app.use('/safetypins', safetypins);
-app.use('/safetypins/:id/reviews', reviews);
+app.get('/fakeUser', async(req, res) => {
+    const user = new User({ email: "deepakshisud@gmail.com" ,username: "Deepakshi"});
+    const newUser = await User.register(user,'shining123');
+    res.send(newUser);
+})
+
+app.use('/safetypins', safetypinRoutes);
+app.use('/safetypins/:id/reviews', reviewRoutes);
+app.use('/',userRoutes);
 
 
 app.get('/', (req, res) => {
