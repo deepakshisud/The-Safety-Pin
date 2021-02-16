@@ -11,15 +11,18 @@
               <li class="list-group-item"><%= safetypin.address %></li>
               <li class="list-group-item"><%= safetypin.safety_index %>/10</li>
             </ul>
+            <% if(currentUser && safetypin.author.equals(currentUser)) {%> 
             <div class="card-body">
                 <a href="/safetypins/<%=safetypin._id%>/edit" class="card-link btn btn-warning">Edit</a>
                 <form class = "d-inline" action="/safetypins/<%=safetypin._id%>?_method=DELETE" method="POST">
                     <button class="btn btn-danger">Delete</button>
                 </form>
             </div>
+            <% } %> 
           </div>
     </div>
     <div class="col-6">
+      <% if(currentUser) { %> 
       <h2>Been here? Leave a review</h2>
       <form class="mb-3 validated-form" action="/safetypins/<%=safetypin._id%>/reviews" method="POST" novalidate>
         <div class="mb-3">
@@ -35,6 +38,7 @@
         </div>
         <button class="btn btn-success">Submit</button>
       </form>
+      <% } %> 
       <% for(let review of safetypin.reviews)  { %>
         <div class="card mb-3">
           <div class="card-body">
