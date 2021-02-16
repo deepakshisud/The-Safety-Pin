@@ -1,6 +1,7 @@
 const {safetypinSchema, reviewSchema} = require('./schemas.js');
 const ExpressError = require('./utils/ExpressError');
 const Safetypin = require('./models/safetypin');
+const Review = require('./models/review');
 
 module.exports.isLoggedIn = (req, res, next) => {
     if(!req.isAuthenticated()) {
@@ -38,6 +39,17 @@ module.exports.validateReview = (req,res, next) => {
     if(error) {
         const msg = error.details.map(el => el.message).join(',');
         throw new ExpressError(msg , 400);
+    } else {
+        next();
+    }
+}
+
+module.exports.isReviewAuthor = async(req, res, next) => {
+    const {id, reviewId} = req.params;
+    const review = await Review.findById(reviewId);
+    if(!review.author.equals(req.user._id)) {
+        req.flash('error', 'Unauthorized user');
+        return res.redirect(`/safetypins/${id}`)
     } else {
         next();
     }
