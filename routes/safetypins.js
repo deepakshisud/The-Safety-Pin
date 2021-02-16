@@ -28,6 +28,7 @@ router.get('/new', isLoggedIn, (req,res) => {
 
 router.post('/', isLoggedIn, validateSafetypin, catchAsync (async(req, res) => {
     const safetypin = new Safetypin(req.body.safetypin);
+    safetypin.author = req.user._id;
     await safetypin.save();
     req.flash('success','Successfully made a new safetypin')
     res.redirect(`/safetypins/${safetypin._id}`);
@@ -35,7 +36,8 @@ router.post('/', isLoggedIn, validateSafetypin, catchAsync (async(req, res) => {
 }))
 
 router.get('/:id', catchAsync(async(req, res) => {
-    const safetypin = await Safetypin.findById(req.params.id).populate('reviews');
+    const safetypin = await Safetypin.findById(req.params.id).populate('reviews').populate('author');
+    console.log(safetypin);
     if(!safetypin) {
         req.flash('error','Cannot find the safetypin')
          return res.redirect('/safetypins');

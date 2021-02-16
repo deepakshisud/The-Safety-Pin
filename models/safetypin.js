@@ -9,6 +9,10 @@ const SafetypinSchema = new Schema( {
     safety_index: Number,
     description: String,
     address: String,
+    author: {
+        type: Schema.Types.ObjectId,
+        ref: 'User'
+    },
     reviews: [
         {
             type: Schema.Types.ObjectId,

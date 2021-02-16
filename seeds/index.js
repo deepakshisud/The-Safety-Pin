@@ -21,8 +21,9 @@ const seedDB = async () => {
     await Safetypin.deleteMany({});
     for(let i=0;i<50;i++) {
         const random47 = Math.floor(Math.random()*47);
-        const index = Math.random*10;
+        var index = Math.floor(Math.random()*10);
         const places = new Safetypin( {
+            author: '602a2a47a8afb63cecf559de',
             address: `${cities[random47].accentcity}`,
             location: `${sample(p[0])} ${sample(p[1])}`,
             image: 'https://source.unsplash.com/collection/782142',
