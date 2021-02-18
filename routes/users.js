@@ -5,15 +5,13 @@ const passport = require('passport');
 const users = require('../controllers/users');
 const { route } = require('./safetypins');
 
-router.get('/register',  users.registerForm);
+router.route('/register')
+.get('/register',  users.registerForm)
+.post('/register', catchAsync(users.register))
 
-
-
-router.get('/login', users.loginForm);
-
-router.post('/login', passport.authenticate('local', {failureFlash: true, failureRedirect: '/login'}), users.login )
-
-router.post('/register', catchAsync(users.register))
+router.route('/login')
+.get('/login', users.loginForm)
+.post('/login', passport.authenticate('local', {failureFlash: true, failureRedirect: '/login'}), users.login )
 
 router.get('/logout', users.logout);
 

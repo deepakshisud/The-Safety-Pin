@@ -7,21 +7,22 @@ const Safetypin = require('../models/safetypin');
 const {safetypinSchema} = require('../schemas.js');
 const {isLoggedIn, isAuthor, validateSafetypin} = require('../middleware');
 
+router.route('/')
+    .get(catchAsync(safetypins.index))
+    .post(isLoggedIn, validateSafetypin, catchAsync (safetypins.createPin));
 
-
-router.get('/', catchAsync(safetypins.index))
-
+    
 router.get('/new', isLoggedIn, safetypins.newForm)
 
-router.post('/', isLoggedIn, validateSafetypin, catchAsync (safetypins.createPin));
+router.route('/:id')
+    .get( catchAsync(safetypins.showPins))
+    .put( isLoggedIn, isAuthor, validateSafetypin, catchAsync(safetypins.updatePin)) 
+    .delete( isLoggedIn, isAuthor, catchAsync(safetypins.deletePin))
+    
 
-router.get('/:id', catchAsync(safetypins.showPins))
 
 router.get('/:id/edit', isLoggedIn, isAuthor, catchAsync(safetypins.editForm))
 
-router.put('/:id', isLoggedIn, isAuthor, validateSafetypin, catchAsync(safetypins.updatePin))
-
-router.delete('/:id', isLoggedIn, isAuthor, catchAsync(safetypins.deletePin))
 
 
 module.exports = router;
