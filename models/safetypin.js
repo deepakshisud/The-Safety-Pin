@@ -5,7 +5,13 @@ const Schema = mongoose.Schema;
 
 const SafetypinSchema = new Schema( {
     location: String,
-    image :String,
+    images : [
+        {
+            url : String,
+            filename: String
+
+        }
+    ],
     safety_index: Number,
     description: String,
     address: String,

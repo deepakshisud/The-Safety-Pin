@@ -11,8 +11,10 @@ module.exports.newForm = (req,res) => {
 
 module.exports.createPin = async(req, res) => {
     const safetypin = new Safetypin(req.body.safetypin);
+    safetypin.images = req.files.map(f=> ({url: f.path, filename: f.filename}))
     safetypin.author = req.user._id;
     await safetypin.save();
+    console.log(safetypin);
     req.flash('success','Successfully made a new safetypin')
     res.redirect(`/safetypins/${safetypin._id}`);
 
