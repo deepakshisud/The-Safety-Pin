@@ -46,6 +46,9 @@ module.exports.editForm = async(req,res) => {
 module.exports.updatePin = async(req,res) => {
     const {id} = req.params;
     const safetypin = await Safetypin.findByIdAndUpdate(id, {...req.body});
+    const imgs = req.files.map(f=> ({url: f.path, filename: f.filename}));
+    safetypin.images.push(...imgs);
+    await safetypin.save
     req.flash('success','Successfully updated!');
     res.redirect(`/safetypins/${safetypin._id}`);
 }

@@ -19,7 +19,7 @@ router.get('/new', isLoggedIn, safetypins.newForm)
 
 router.route('/:id')
     .get( catchAsync(safetypins.showPins))
-    .put( isLoggedIn, isAuthor, validateSafetypin, catchAsync(safetypins.updatePin)) 
+    .put( isLoggedIn, isAuthor, upload.array('image'), validateSafetypin, catchAsync(safetypins.updatePin)) 
     .delete( isLoggedIn, isAuthor, catchAsync(safetypins.deletePin))
     
 

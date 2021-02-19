@@ -26,9 +26,18 @@ const seedDB = async () => {
             author: '602a2a47a8afb63cecf559de',
             address: `${cities[random47].accentcity}`,
             location: `${sample(p[0])} ${sample(p[1])}`,
-            image: 'https://source.unsplash.com/collection/782142',
+            images: [
+                {
+                  url: 'https://res.cloudinary.com/dlx3t2epk/image/upload/v1613719108/Safetypin/pf6vg2zzvnvaroddmlm1.jpg',
+                  filename: 'Safetypin/pf6vg2zzvnvaroddmlm1'
+                },
+                {
+                  url: 'https://res.cloudinary.com/dlx3t2epk/image/upload/v1613719108/Safetypin/yaweoqbsxakabepn4efk.jpg',
+                  filename: 'Safetypin/yaweoqbsxakabepn4efk'
+                }
+              ],
             description: 'Lorem ipsum dolor sit, amet consectetur adipisicing elit. Aut quis aliquam sunt quos officiis eaque, animi beatae molestias praesentium consequuntur vitae numquam veritatis harum ducimus blanditiis ad nobis consectetur esse.',
-            safety_index: index
+            safety_index: index,
         })
         await places.save();
     }
