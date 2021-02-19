@@ -1,5 +1,7 @@
 const express = require('express');
 const router = express.Router();
+const multer = require('multer');
+const upload = multer({dest: 'uploads/'});
 const safetypins = require('../controllers/safetypins');
 const catchAsync = require('../utils/catchAsync');
 const ExpressError = require('../utils/ExpressError');
@@ -9,7 +11,11 @@ const {isLoggedIn, isAuthor, validateSafetypin} = require('../middleware');
 
 router.route('/')
     .get(catchAsync(safetypins.index))
-    .post(isLoggedIn, validateSafetypin, catchAsync (safetypins.createPin));
+    // .post(isLoggedIn, validateSafetypin, catchAsync (safetypins.createPin));
+    .post(upload.single('image'), (req, res) => {
+        console.log(req.body, req.file);
+        res.send("hello")
+    })
 
     
 router.get('/new', isLoggedIn, safetypins.newForm)

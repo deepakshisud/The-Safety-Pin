@@ -35,7 +35,6 @@ module.exports.isAuthor = async(req, res, next) => {
 }
 
 module.exports.validateReview = (req,res, next) => {
-    console.log(req.body);
     const {error} = reviewSchema.validate(req.body);
     if(error) {
         const msg = error.details.map(el => el.message).join(',');

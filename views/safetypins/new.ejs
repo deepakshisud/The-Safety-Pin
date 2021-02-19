@@ -2,7 +2,7 @@
 <div class="row">
     <h1 class="text-center">New SafetyPin</h1>
     <div class="col-6 offset-3">
-        <form action="/safetypins" method="POST" novalidate class="validated-form">
+        <form action="/safetypins" method="POST" novalidate class="validated-form" enctype="multipart/form-data">
             <div class="mb-3">
                 <label class="form-lable" for="location">Location</label>
                 <input class = "form-control" type="text" name="safetypin[location]" id="location" required>
@@ -18,11 +18,12 @@
                 </div>
             </div>
             <div class="mb-3">
-                <label class="form-lable" for="image">Add Image</label>
+                <input type="file" name="image" id="">
+                <!-- <label class="form-lable" for="image">Add Image</label>
                 <input class = "form-control" type="text" name="safetypin[image]" id="image" required>
                 <div class="valid-feedback">
                     Looks good!
-                </div>
+                </div> -->
             </div>
             <div class="mb-3">
                 <label class="form-lable" for="safety_index">Safety Index</label>
