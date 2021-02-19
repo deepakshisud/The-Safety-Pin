@@ -1,4 +1,5 @@
 const Safetypin = require('../models/safetypin');
+const { cloudinary } = require("../cloudinary");
 
 module.exports.index = async(req, res) => {
     const safetypins = await Safetypin.find({});
@@ -49,6 +50,12 @@ module.exports.updatePin = async(req,res) => {
     const imgs = req.files.map(f=> ({url: f.path, filename: f.filename}));
     safetypin.images.push(...imgs);
     await safetypin.save();
+    if (req.body.deleteImages) {
+        for (let filename of req.body.deleteImages) {
+            await cloudinary.uploader.destroy(filename);
+        }
+        await safetypin.updateOne({ $pull: { images: { filename: { $in: req.body.deleteImages } } } })
+    }
     req.flash('success','Successfully updated!');
     res.redirect(`/safetypins/${safetypin._id}`);
 }
