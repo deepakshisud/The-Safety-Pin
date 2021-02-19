@@ -1,5 +1,8 @@
 (function() {
   'use strict';
+
+  bsCustomFileInput.init()
+  
   window.addEventListener('load', function() {
     const forms = document.getElementsByClassName('validated-form');
     var validation = Array.prototype.filter.call(forms, function(form) {
