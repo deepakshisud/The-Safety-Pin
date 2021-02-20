@@ -1,4 +1,7 @@
 const Safetypin = require('../models/safetypin');
+const mbxGeocoding = require("@mapbox/mapbox-sdk/services/geocoding");
+const mapBoxToken = process.env.MAPBOX_TOKEN;
+const geocoder = mbxGeocoding({accessToken : mapBoxToken})
 const { cloudinary } = require("../cloudinary");
 
 module.exports.index = async(req, res) => {
@@ -11,13 +14,19 @@ module.exports.newForm = (req,res) => {
 }
 
 module.exports.createPin = async(req, res) => {
-    const safetypin = new Safetypin(req.body.safetypin);
-    safetypin.images = req.files.map(f=> ({url: f.path, filename: f.filename}))
-    safetypin.author = req.user._id;
-    await safetypin.save();
-    console.log(safetypin);
-    req.flash('success','Successfully made a new safetypin')
-    res.redirect(`/safetypins/${safetypin._id}`);
+    const geoData = await geocoder.forwardGeocode({
+        query: req.body.safetypin.address,
+        limit: 1
+    }).send()
+    console.log(geoData.body.features);
+    res.send("Hello");
+    // const safetypin = new Safetypin(req.body.safetypin);
+    // safetypin.images = req.files.map(f=> ({url: f.path, filename: f.filename}))
+    // safetypin.author = req.user._id;
+    // await safetypin.save();
+    // console.log(safetypin);
+    // req.flash('success','Successfully made a new safetypin')
+    // res.redirect(`/safetypins/${safetypin._id}`);
 
 }
 
