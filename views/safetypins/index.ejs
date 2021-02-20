@@ -8,7 +8,11 @@
             <div class="card">
                 <div class="row">
                     <div class="col-md-4">
+                        <% if(safetypin.images.length) {%> 
                         <img src="<%= safetypin.images[0].url %> " alt="" class="img-fluid">
+                        <% } else { %>
+                            <img src="" alt="">
+                        <% } %>  
                     </div>
                     <div class="col-mg-8">
                         <div class="card-body">
