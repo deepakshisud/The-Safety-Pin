@@ -3,8 +3,6 @@
 
 <div class="row">
     <div class="col-6">
-      
-      <div id='map' style='width: 400px; height: 300px;'></div>
       <div id="safetypinCarousel" class="carousel slide" data-ride="carousel">
         <div class="carousel-inner">
           <% safetypin.images.forEach((img, i) => { %>
@@ -44,6 +42,7 @@
     </div>
     </div>
     <div class="col-6">
+      <div id='map' style='width: 400px; height: 300px;'></div>
       <% if(currentUser) { %> 
       <h2>Been here? Leave a review</h2>
       <form class="mb-3 validated-form" action="/safetypins/<%=safetypin._id%>/reviews" method="POST" novalidate>

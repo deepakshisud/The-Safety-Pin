@@ -9,4 +9,10 @@ const map = new mapboxgl.Map({
 });
 new mapboxgl.Marker()
     .setLngLat(pins.geometry.coordinates)
+    .setPopup(
+        new mapboxgl.Popup({offset: 25})
+        .setHTML(
+            `<h3>${pins.location}</h3><p>${pins.address}</p>`
+        )
+    )
     .addTo(map)
