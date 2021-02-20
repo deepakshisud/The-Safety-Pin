@@ -18,15 +18,14 @@ module.exports.createPin = async(req, res) => {
         query: req.body.safetypin.address,
         limit: 1
     }).send()
-    console.log(geoData.body.features);
-    res.send("Hello");
-    // const safetypin = new Safetypin(req.body.safetypin);
-    // safetypin.images = req.files.map(f=> ({url: f.path, filename: f.filename}))
-    // safetypin.author = req.user._id;
-    // await safetypin.save();
-    // console.log(safetypin);
-    // req.flash('success','Successfully made a new safetypin')
-    // res.redirect(`/safetypins/${safetypin._id}`);
+    const safetypin = new Safetypin(req.body.safetypin);
+    safetypin.images = req.files.map(f=> ({url: f.path, filename: f.filename}))
+    safetypin.geometry = geoData.body.features[0].geometry;
+    safetypin.author = req.user._id;
+    await safetypin.save();
+    console.log(safetypin);
+    req.flash('success','Successfully made a new safetypin')
+    res.redirect(`/safetypins/${safetypin._id}`);
 
 }
 

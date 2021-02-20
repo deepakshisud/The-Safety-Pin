@@ -16,6 +16,17 @@ ImageSchema.virtual('thumbnail').get(function () {
 const SafetypinSchema = new Schema( {
     location: String,
     images : [ImageSchema],
+    geometry: {
+        type: {
+            type: String,
+            enum : ['Point'],
+            required: true
+        },
+        coordinates : {
+            type: [Number],
+            required: true
+        }
+    },
     safety_index: Number,
     description: String,
     address: String,
