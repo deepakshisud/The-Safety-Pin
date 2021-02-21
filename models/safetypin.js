@@ -12,7 +12,7 @@ ImageSchema.virtual('thumbnail').get(function () {
     return this.url.replace('/upload', '/upload/w_200');
 });
 
-
+const opts = { toJSON: { virtuals : true}}
 const SafetypinSchema = new Schema( {
     location: String,
     images : [ImageSchema],
@@ -40,6 +40,12 @@ const SafetypinSchema = new Schema( {
             ref: 'Review'
         }
     ]
+}, opts)
+
+
+SafetypinSchema.virtual('properties.popUpMarkup').get(function() {
+    return `<strong><a href="/safetypins/${this._id}" style="color: black">${this.location}</a><strong>
+    <p style="color: grey">${this.description.substring(0, 20)}...</p>`
 })
 
 SafetypinSchema.post('findOneAndDelete', async function(doc)  {

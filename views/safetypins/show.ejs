@@ -96,7 +96,7 @@
 
 <script>
   const mapToken = '<%- process.env.MAPBOX_TOKEN%>';
-  const pin = '<%- JSON.stringify(safetypin)%>';
+  const pin = <%- JSON.stringify(safetypin)%>;
 </script>
 <script src="/js/showPageMap.js"></script>
 
