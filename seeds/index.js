@@ -36,7 +36,13 @@ const seedDB = async () => {
                   filename: 'Safetypin/yaweoqbsxakabepn4efk'
                 }
               ],
-            geometry: { type: 'Point', coordinates: [ 76.53, 32.12 ] },
+            geometry: { 
+              type: 'Point',
+              coordinates: [
+                cities[random47].longitude,
+                cities[random47].latitude
+              ] 
+            },
             description: 'Lorem ipsum dolor sit, amet consectetur adipisicing elit. Aut quis aliquam sunt quos officiis eaque, animi beatae molestias praesentium consequuntur vitae numquam veritatis harum ducimus blanditiis ad nobis consectetur esse.',
             safety_index: index,
         })

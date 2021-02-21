@@ -13,6 +13,7 @@ const methodOverride = require('method-override');
 const passport = require('passport');
 const LocalStrategy = require('passport-local');
 const User = require('./models/user');
+const Safetypin = require('./models/safetypin');
 
 
 const safetypinRoutes = require('./routes/safetypins');
@@ -79,8 +80,9 @@ app.use('/safetypins/:id/reviews', reviewRoutes);
 app.use('/',userRoutes);
 
 
-app.get('/', (req, res) => {
-    res.render('home');
+app.get('/', async(req, res) => {
+    const safetypins = await Safetypin.find({});
+    res.render('home', {safetypins});
 })
 
 
